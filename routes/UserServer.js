@@ -147,7 +147,7 @@ const isMatch = await bcrypt.compare(password, user.password);
       res.status(401).json({ message: 'Invalid email or password' }); // Σφάλμα αν το email ή το password είναι λάθος
     }
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "in logging in"});
   }
 });
 module.exports = router;
