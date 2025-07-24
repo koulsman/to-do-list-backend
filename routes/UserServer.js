@@ -135,19 +135,16 @@ router.get('/users/:password', getUser, (req, res) => {
 });
 router.post('/users/login', async (req, res) => {
   const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-  try {
-    // Αναζητούμε τον χρήστη με βάση το email
-    const user = await User.findOne({ email: email });
-const isMatch = await bcrypt.compare(password, user.password);
-    // Έλεγχος αν ο χρήστης υπάρχει και το password ταιριάζει
-    if (user && isMatch) {
-      res.status(200).json(user); // Επιστρέφουμε τα δεδομένα του χρήστη
-    } else {
-      res.status(401).json({ message: 'Invalid email or password' }); // Σφάλμα αν το email ή το password είναι λάθος
-    }
-  } catch (err) {
-    res.status(500).json({ message: "in logging in"});
+  if (!user || user.password !== password) {
+    return res.status(401).send('Invalid credentials');
   }
+
+  res.status(200).json({
+    name: user.name,
+    email: user.email,
+    id: user._id,
+  });
 });
 module.exports = router;
