@@ -141,9 +141,10 @@ router.post('/users/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
-  if (!user || user.password !== password) {
-    return res.status(401).send('Invalid credentials');
-  }
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+if (!user || !isPasswordValid) {
+  return res.status(401).send('Invalid credentials');
+}
 
   res.status(200).json({
     message: "skpowje[f",
