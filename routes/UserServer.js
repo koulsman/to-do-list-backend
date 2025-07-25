@@ -141,19 +141,17 @@ router.post('/users/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
-  // ⚠️ First check if user exists!
   if (!user) {
-    return res.status(401).send('Invalid credentials (no user)');
+    return res.status(401).json({ error: "User not found" });
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
-
   if (!isPasswordValid) {
-    return res.status(401).send('Invalid credentials (bad password)');
+    return res.status(401).json({ error: "Invalid password" });
   }
 
-  // ✅ Safe to respond with user data
-  return res.status(200).json({
+  // ✅ Send user data back properly
+  res.status(200).json({
     name: user.name,
     email: user.email,
     _id: user._id,
