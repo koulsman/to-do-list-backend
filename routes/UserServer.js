@@ -100,7 +100,11 @@ const hashedPassword = await bcrypt.hash(req.body.password, 10);
     
     const newUser = await user.save();
     console.log("user saved!")
-    res.status(201).json(newUser); // Send created user as a response
+    res.status(201).json({
+  _id: newUser._id,
+  name: newUser.name,
+  email: newUser.email
+});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -145,7 +149,7 @@ router.post('/users/login', async (req, res) => {
     message: "skpowje[f",
     name: user.name,
     email: user.email,
-    id: user._id,
+    _id: user._id,
   });
 });
 module.exports = router;
