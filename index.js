@@ -19,7 +19,13 @@ const allowedOrigins = [
   'https://to-do-list-esdn.onrender.com'
 ];
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error(`CORS policy: Origin ${origin} not allowed.`), false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
