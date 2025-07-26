@@ -11,7 +11,7 @@ const router = express.Router();
 // app.use(cors())
 router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(cors({ origin: "http://localhost:3000", credentials: true }));
+// router.use(cors({ origin: "http://localhost:3000", credentials: true }));
 const List = require("../ListSchema");
 
 console.log("ok")
