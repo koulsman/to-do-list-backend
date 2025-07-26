@@ -15,10 +15,9 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 const allowedOrigins = [
-  'http://localhost:3000', // Dev frontend
-  'https://to-do-list.onrender.com' // Deployed frontend
+  'http://localhost:3000',
+  'https://to-do-list-esdn.onrender.com'
 ];
-
 app.use(cors({
   origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],

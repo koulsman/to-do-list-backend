@@ -125,18 +125,40 @@ async function getUser(req, res, next) {
   next();
 }
 
-router.get('/users/:id', getUser, (req, res) => {
-  res.json(res.user);
+router.get('/users/id/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
-router.get('/users/:name', getUser, (req, res) => {
-  res.json(res.user);
+
+// Get user by name
+router.get('/users/name/:name', async (req, res) => {
+  try {
+    const user = await User.findOne({ name: req.params.name });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
-router.get('/users/:email', getUser, (req, res) => {
-  res.json(res.user);
+
+// Get user by email
+router.get('/users/email/:email', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
-router.get('/users/:password', getUser, (req, res) => {
-  res.json(res.user);
-});
+// router.get('/users/:password', getUser, (req, res) => {
+//   res.json(res.user);
+// });
 router.post('/users/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
